@@ -1,3 +1,9 @@
 var = 2
 
-print var
+var = var * 2
+
+print var + 6
+
+f(x) = 2 * x
+
+print f(var) ** 2
