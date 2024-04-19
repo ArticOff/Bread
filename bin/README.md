@@ -1,6 +1,6 @@
 # Bread file
 
-The Bread file is an .elf file that only works on GNU/Linux OS.
+The Bread file is an .elf file that only works on Linux distros.
 
 ## Windows
 
