@@ -13,7 +13,8 @@ For now you can only print arithmetic and manipulate variables or functions. You
 ## Documentation
 
 The documentation isn't finished too.
-You can reach the [documentation's Repo here](https://github.com/ArticOff/articoff.github.io/tree/md) 
+
+You can reach the [documentation's Repo here](https://github.com/ArticOff/articoff.github.io/tree/site/md) 
 
 ## Contribution
 
