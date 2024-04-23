@@ -1,6 +1,6 @@
 # Bread file
 
-The Bread file is an .elf file that only works on Linux distros.
+The Bread file is an .elf file that only works on Linux distros. The .elf is in a old version, i recommend you to recompile it to avoid bugs or instability. Or just wait for an update with the executables gived.
 
 ## Windows
 
