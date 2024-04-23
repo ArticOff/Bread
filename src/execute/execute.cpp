@@ -86,9 +86,16 @@ std::vector<data *> execute(std::vector<instructions*>& instructions_vector)
                                 else 
                                 {
                                     thing_for_loop = new data(":");
+                                    current_instruction = current_instruction->next;
+                                    while(current_instruction != nullptr)
+                                    {
+                                        thing_for_loop->next = new data(current_instruction->data);
+                                        thing_for_loop = thing_for_loop->next;
+                                        current_instruction = current_instruction->next;
+                                    }
+                                    break;
                                 }
                                 type->next = thing_for_loop;
-                                //std::cout << thing_for_loop->dataS << std::endl;
                             }
                         } 
                         else 
@@ -102,6 +109,14 @@ std::vector<data *> execute(std::vector<instructions*>& instructions_vector)
                                 else 
                                 {
                                     thing_for_loop->next = new data(":");
+                                    current_instruction = current_instruction->next->next;
+                                    while(current_instruction != nullptr)
+                                    {
+                                        thing_for_loop->next->next = new data(current_instruction->data);
+                                        thing_for_loop = thing_for_loop->next;
+                                        current_instruction = current_instruction->next;
+                                    }
+                                    break;
                                 }
                                 thing_for_loop = thing_for_loop->next;
                                 //std::cout << thing_for_loop->dataS << std::endl;
@@ -109,7 +124,6 @@ std::vector<data *> execute(std::vector<instructions*>& instructions_vector)
                         }
                         current_instruction = current_instruction->next;
                     }
-                    
                     /*/data* test = type;
                     while(test != nullptr)
                     {
