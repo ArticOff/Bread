@@ -37,7 +37,7 @@ std::vector<instructions *> parse(std::vector<std::vector<Token>> tokens_lines)
                     method_function(instructions_vector, instructionid, line_tokens, token, linetokenid, line_number);
                 }
             }
-            else if(token.type == "simple_operator")
+            else if(token.type == "simple_operator" || token.type == "condition_operator")
             {
                 who_equal_function(instructions_vector, instructionid, line_tokens, token, linetokenid, line_number);
             }
@@ -61,7 +61,7 @@ std::vector<instructions *> parse(std::vector<std::vector<Token>> tokens_lines)
                     {
 
                     }
-                    if (line_tokens[linetokenid + 1].value == "(")
+                    else if(line_tokens[linetokenid + 1].value == "(")
                     {
                         equal_function_for_function(instructions_vector, instructionid, line_tokens, token, linetokenid);
                     }
