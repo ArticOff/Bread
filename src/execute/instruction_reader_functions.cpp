@@ -77,7 +77,6 @@ long  double functionreader(std::vector<data*> &datas, std::vector<std::string> 
     }
     
     datas.erase(datas.begin() + datas.size() - size, datas.end());
-
     return result;
 }
 
@@ -107,7 +106,7 @@ long  double arithmeticvectorreader(std::vector<data*> &datas, std::vector<std::
     for(; i < calculationstring.size() ; i++)
     {
         if(calculationstring[i] != "*" && calculationstring[i] != "**" && calculationstring[i] != "/" && calculationstring[i] != "+" && calculationstring[i] != "-" && calculationstring[i] != "(" && calculationstring[i] != ")"  
-        && isInt(calculationstring[i]) == false)
+        && isInt(calculationstring[i]) == false && calculationstring[i] != "==" && calculationstring[i] != "!=" && calculationstring[i] != ">=" && calculationstring[i] != "<=")
         {
             if(local == false)
             {
@@ -117,37 +116,9 @@ long  double arithmeticvectorreader(std::vector<data*> &datas, std::vector<std::
                     if ((*it)->dataS == "variable")
                     {
                         calculationstring[i] = (*it)->next->next->dataS;
-                    }
-                    else if ((*it)->dataS == "function")
-                    {
-                        int stack = 1;
-                        int i2 = i + 2;
-                        std::vector<std::string> function;
-                        function.push_back(calculationstring[i]);
-                        function.push_back("(");
-                        for (; i2 < calculationstring.size(); i2++)
-                        {
-                            function.push_back(calculationstring[i2]);
-                            if (calculationstring[i2] == ")")
-                            {
-                                stack--;
-                                if (stack == 0)
-                                {
-                                    break;
-                                }
-                            }
-                            if (calculationstring[i2] == "(")
-                            {
-                                stack++;
-                            }
-                        }
-                        long  double functionread = functionreader(datas, function, it);
-                        auto start = calculationstring.begin() + i + 1;
-                        auto end = calculationstring.begin() + i2 + 1;
-                        calculationstring.erase(start, end);
-                        calculationstring[i] = std::to_string(functionread);
-                    }
-                    else
+                    }   
+                    
+                    else if((*it)->dataS != "function")
                     {
                         throw std::runtime_error("undefined variable");
                     }
@@ -176,36 +147,7 @@ long  double arithmeticvectorreader(std::vector<data*> &datas, std::vector<std::
                         {
                             calculationstring[i] = (*it)->next->next->dataS;
                         }
-                        else if ((*it)->dataS == "function")
-                        {
-                            int stack = 1;
-                            int i2 = i + 2;
-                            std::vector<std::string> function;
-                            function.push_back(calculationstring[i]);
-                            function.push_back("(");
-                            for (; i2 < calculationstring.size(); i2++)
-                            {
-                                function.push_back(calculationstring[i2]);
-                                if (calculationstring[i2] == ")")
-                                {
-                                    stack--;
-                                    if (stack == 0)
-                                    {
-                                        break;
-                                    }
-                                }
-                                if (calculationstring[i2] == "(")
-                                {
-                                    stack++;
-                                }
-                            }
-                            long  double functionread = functionreader(datas, function, it);
-                            auto start = calculationstring.begin() + i + 1;
-                            auto end = calculationstring.begin() + i2 + 1;
-                            calculationstring.erase(start, end);
-                            calculationstring[i] = std::to_string(functionread);
-                        }
-                        else
+                        else if((*it)->dataS != "function")
                         {
                             throw std::runtime_error("undefined variable");
                         }
@@ -215,6 +157,49 @@ long  double arithmeticvectorreader(std::vector<data*> &datas, std::vector<std::
                         throw std::runtime_error("undefined variable");
                     }
                 }
+            }
+        }
+    }
+    //replace function by number
+    i = 0;
+    for(; i < calculationstring.size() ; i++)
+    {
+        if(calculationstring[i] != "*" && calculationstring[i] != "**" && calculationstring[i] != "/" && calculationstring[i] != "+" && calculationstring[i] != "-" && calculationstring[i] != "(" && calculationstring[i] != ")"  
+        && isInt(calculationstring[i]) == false && calculationstring[i] != "==" && calculationstring[i] != "!=" && calculationstring[i] != ">=" && calculationstring[i] != "<=")
+        {
+            auto it = std::find_if(datas.begin(), datas.end(), name_equals(calculationstring[i]));
+            if (it != datas.end())
+            {
+                int stack = 1;
+                int i2 = i + 2;
+                std::vector<std::string> function;
+                function.push_back(calculationstring[i]);
+                function.push_back("(");
+                for (; i2 < calculationstring.size(); i2++)
+                {
+                    function.push_back(calculationstring[i2]);
+                    if (calculationstring[i2] == ")")
+                    {
+                        stack--;
+                        if (stack == 0)
+                        {
+                            break;
+                        }
+                    }
+                    if (calculationstring[i2] == "(")
+                    {
+                        stack++;
+                    }
+                }
+                long  double functionread = functionreader(datas, function, it);
+                auto start = calculationstring.begin() + i + 1;
+                auto end = calculationstring.begin() + i2 + 1;
+                calculationstring.erase(start, end);
+                calculationstring[i] = std::to_string(functionread);
+            }
+            else
+            {
+                throw std::runtime_error("undefined function");
             }
         }
     }
@@ -359,6 +344,70 @@ long  double arithmeticvectorreader(std::vector<data*> &datas, std::vector<std::
                 std::string result = "-" + calculationstring[i + 1];
                 calculationstring.erase(calculationstring.begin() + i);
                 calculationstring[i] = result;
+            }
+            else
+            {
+                throw std::runtime_error("invalid operation");
+            }
+        }
+    }
+    //for condition operators
+    i = 0;
+    for(; i < calculationstring.size() ; i++)
+    {
+        if(calculationstring[i] == "==" || calculationstring[i] == "!=" || calculationstring[i] == ">=" || calculationstring[i] == "<=")
+        {
+            if(calculationstring.size() > i + 1)
+            {
+                long double result;
+                if(calculationstring[i] == "==")
+                {
+                    if(calculationstring[i - 1] == calculationstring[i + 1])
+                    {
+                        result = 1;
+                    }
+                    else
+                    {
+                        result = 0;
+                    }
+                }
+                else if(calculationstring[i] == "!=")
+                {
+                    if(calculationstring[i - 1] != calculationstring[i + 1])
+                    {
+                        result = 1;
+                    }
+                    else
+                    {
+                        result = 0;
+                    }
+                }
+                else if(calculationstring[i] == ">=")
+                {
+                    if(std::stold(calculationstring[i - 1]) >= std::stold(calculationstring[i + 1]))
+                    {
+                        result = 1;
+                    }
+                    else
+                    {
+                        result = 0;
+                    }
+                }
+                else if(calculationstring[i] == "<=")
+                {
+                    if(std::stold(calculationstring[i - 1]) <= std::stold(calculationstring[i + 1]))
+                    {
+                        result = 1;
+                    }
+                    else
+                    {
+                        result = 0;
+                    }
+                }
+                calculationstring.erase(calculationstring.begin() + i);
+                calculationstring.erase(calculationstring.begin() + i);
+                i -= 1;
+                calculationstring[i] = std::to_string(result);
             }
             else
             {
