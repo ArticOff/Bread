@@ -10,9 +10,9 @@ std::vector<std::vector<Token>> tokenize(const std::string& code, bool debug)
     ">=|<=|==|!=|<|>|" // //condition_operator
     "\\[|\\]|\\(|\\)|;|,|" // separator
     "=|->|:|" // assignation
-    "\\+|\\-|/|\\*\\*|\\*|" // simple_operator
+    "\\+|\\-|/|\\*\\*|\\*|%|" // simple_operator
     "\n|" //jump of line
-    "([^\\s\\+\\-*/><=!\\[\\]\\(\\);,:\n]+)|" // anyword and detect if there is an operator
+    "([^\\s\\+\\-*/%><=!\\[\\]\\(\\);,:\n]+)|" // anyword and detect if there is an operator
     "(\\d+(\\.\\d+)?)|"
     "use|print|input" // method
     ")";
@@ -58,7 +58,7 @@ std::vector<std::vector<Token>> tokenize(const std::string& code, bool debug)
             tokens.push_back(token);
         }
         
-        else if(match.str() == "+" || match.str() == "-" || match.str() == "/" || match.str() == "**" || match.str() == "*") //simple_operator
+        else if(match.str() == "+" || match.str() == "-" || match.str() == "/" || match.str() == "**" || match.str() == "*" || match.str() == "%") //simple_operator
         {
             Token token;
             token.type = "simple_operator";
