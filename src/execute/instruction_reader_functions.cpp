@@ -105,7 +105,7 @@ long  double arithmeticvectorreader(std::vector<data*> &datas, std::vector<std::
     i = 0;
     for(; i < calculationstring.size() ; i++)
     {
-        if(calculationstring[i] != "*" && calculationstring[i] != "**" && calculationstring[i] != "/" && calculationstring[i] != "+" && calculationstring[i] != "-" && calculationstring[i] != "(" && calculationstring[i] != ")"  
+        if(calculationstring[i] != "%" && calculationstring[i] != "*" && calculationstring[i] != "**" && calculationstring[i] != "/" && calculationstring[i] != "+" && calculationstring[i] != "-" && calculationstring[i] != "(" && calculationstring[i] != ")"  
         && isInt(calculationstring[i]) == false && calculationstring[i] != "==" && calculationstring[i] != "!=" && calculationstring[i] != ">=" && calculationstring[i] != "<=")
         {
             if(local == false)
@@ -164,7 +164,7 @@ long  double arithmeticvectorreader(std::vector<data*> &datas, std::vector<std::
     i = 0;
     for(; i < calculationstring.size() ; i++)
     {
-        if(calculationstring[i] != "*" && calculationstring[i] != "**" && calculationstring[i] != "/" && calculationstring[i] != "+" && calculationstring[i] != "-" && calculationstring[i] != "(" && calculationstring[i] != ")"  
+        if(calculationstring[i] != "%" && calculationstring[i] != "*" && calculationstring[i] != "**" && calculationstring[i] != "/" && calculationstring[i] != "+" && calculationstring[i] != "-" && calculationstring[i] != "(" && calculationstring[i] != ")"  
         && isInt(calculationstring[i]) == false && calculationstring[i] != "==" && calculationstring[i] != "!=" && calculationstring[i] != ">=" && calculationstring[i] != "<=")
         {
             auto it = std::find_if(datas.begin(), datas.end(), name_equals(calculationstring[i]));
@@ -233,6 +233,22 @@ long  double arithmeticvectorreader(std::vector<data*> &datas, std::vector<std::
             auto end = calculationstring.begin() + i2 + 1;
             calculationstring.erase(start, end);
             calculationstring[i] = std::to_string(arithmeticvectorreader(datas, inparenthesecalculationstring, false));
+        }
+    }
+    i = 0;
+    for(; i < calculationstring.size() ; i++)
+    {
+        if(calculationstring[i] == "%" && calculationstring.size() > i + 1)
+        {
+            long  double result = std::fmod(std::stold(calculationstring[i - 1]), std::stold(calculationstring[i + 1]));
+            calculationstring.erase(calculationstring.begin() + i);
+            calculationstring.erase(calculationstring.begin() + i);
+            i -= 1;
+            calculationstring[i] = std::to_string(result);
+        }
+        else if (calculationstring[i] == "%")
+        {
+            throw std::runtime_error("invalid operation");
         }
     }
     i = 0;
