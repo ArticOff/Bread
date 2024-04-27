@@ -106,7 +106,7 @@ long  double arithmeticvectorreader(std::vector<data*> &datas, std::vector<std::
     for(; i < calculationstring.size() ; i++)
     {
         if(calculationstring[i] != "%" && calculationstring[i] != "*" && calculationstring[i] != "**" && calculationstring[i] != "/" && calculationstring[i] != "+" && calculationstring[i] != "-" && calculationstring[i] != "(" && calculationstring[i] != ")"  
-        && isInt(calculationstring[i]) == false && calculationstring[i] != "==" && calculationstring[i] != "!=" && calculationstring[i] != ">=" && calculationstring[i] != "<=")
+        && isInt(calculationstring[i]) == false && calculationstring[i] != "==" && calculationstring[i] != "!=" && calculationstring[i] != ">=" && calculationstring[i] != "<=" && calculationstring[i] != ">" && calculationstring[i] != "<")
         {
             if(local == false)
             {
@@ -165,7 +165,7 @@ long  double arithmeticvectorreader(std::vector<data*> &datas, std::vector<std::
     for(; i < calculationstring.size() ; i++)
     {
         if(calculationstring[i] != "%" && calculationstring[i] != "*" && calculationstring[i] != "**" && calculationstring[i] != "/" && calculationstring[i] != "+" && calculationstring[i] != "-" && calculationstring[i] != "(" && calculationstring[i] != ")"  
-        && isInt(calculationstring[i]) == false && calculationstring[i] != "==" && calculationstring[i] != "!=" && calculationstring[i] != ">=" && calculationstring[i] != "<=")
+        && isInt(calculationstring[i]) == false && calculationstring[i] != "==" && calculationstring[i] != "!=" && calculationstring[i] != ">=" && calculationstring[i] != "<=" && calculationstring[i] != ">" && calculationstring[i] != "<")
         {
             auto it = std::find_if(datas.begin(), datas.end(), name_equals(calculationstring[i]));
             if (it != datas.end())
