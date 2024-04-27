@@ -52,7 +52,7 @@ int main(int argc, char* argv[])
             }
         else
         {
-            std::cout << "The file doesn't have the correct extension, the correct is .bread" << std::endl;
+            std::cout << "The file doesn't have the correct extension, the correct is .brd" << std::endl;
         }
         
     }
