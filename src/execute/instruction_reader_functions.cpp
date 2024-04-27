@@ -371,7 +371,7 @@ long  double arithmeticvectorreader(std::vector<data*> &datas, std::vector<std::
     i = 0;
     for(; i < calculationstring.size() ; i++)
     {
-        if(calculationstring[i] == "==" || calculationstring[i] == "!=" || calculationstring[i] == ">=" || calculationstring[i] == "<=")
+        if(calculationstring[i] == "==" || calculationstring[i] == "!=" || calculationstring[i] == ">=" || calculationstring[i] == "<=" || calculationstring[i] == "<" || calculationstring[i] == ">")
         {
             if(calculationstring.size() > i + 1)
             {
@@ -412,6 +412,28 @@ long  double arithmeticvectorreader(std::vector<data*> &datas, std::vector<std::
                 else if(calculationstring[i] == "<=")
                 {
                     if(std::stold(calculationstring[i - 1]) <= std::stold(calculationstring[i + 1]))
+                    {
+                        result = 1;
+                    }
+                    else
+                    {
+                        result = 0;
+                    }
+                }
+                else if(calculationstring[i] == ">")
+                {
+                    if(std::stold(calculationstring[i - 1]) > std::stold(calculationstring[i + 1]))
+                    {
+                        result = 1;
+                    }
+                    else
+                    {
+                        result = 0;
+                    }
+                }
+                else if(calculationstring[i] == "<")
+                {
+                    if(std::stold(calculationstring[i - 1]) < std::stold(calculationstring[i + 1]))
                     {
                         result = 1;
                     }
